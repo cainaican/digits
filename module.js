@@ -266,12 +266,17 @@ function rFourFunc(m) {
 
     let arr_help = [];
     for (key in prom_obj) {
-        const new_arr = [];
-        prom_obj[key].forEach((el, i) => {
-            if (i !==0 && i < prom_obj[key].length) new_arr.push([0, i]);
-        })
+      const new_arr = [];
+      prom_obj[key].forEach((el, i) => {
+          if (i !==0 && i < prom_obj[key].length) new_arr.push([0, i]);
+      })
 
-        new_arr.forEach(el => arr_help.push(makePossiblePairs([prom_obj[key][[el[0]]], prom_obj[key][[el[1]]]])));
+      new_arr.forEach(el =>{
+        const newKey = [[prom_obj[key][[el[0]]], prom_obj[key][[el[1]]]]].toString();
+        const keyReverse = [[prom_obj[key][[el[1]]], prom_obj[key][[el[0]]]]].toString();
+        const data = table_of_weights.get(newKey) ? table_of_weights.get(newKey) : table_of_weights.get(keyReverse);
+        arr_help.push(data)
+      });
 
     }
 
@@ -550,5 +555,11 @@ function calculate() {
     
 }
 
+function clear() {
+  const cells = document.querySelectorAll(".matrix-cell > input");
+  cells.forEach(el => el.value = "");
+}
+
 const btn = document.getElementsByTagName("button");
 btn[0].onclick = calculate;
+btn[1].onclick = clear;
