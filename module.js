@@ -423,21 +423,14 @@ function rElevenFunc(m) {
 
     mFlatCopy.forEach((el, idx) => {
        for(let i = idx + 1; i < mFlatCopy.length; i++) {
-            if(Math.abs(el + mFlatCopy[i]) === 15) prom_arr.push(`${el},${mFlatCopy[i]}`);
-            if(Math.abs(el - mFlatCopy[i]) === 15) prom_arr.push(`${el},${mFlatCopy[i]}`);
-            if(Math.abs(el + mFlatCopy[i]) === 5) prom_arr.push(`${el},${mFlatCopy[i]}`);
-            if(Math.abs(el - mFlatCopy[i]) === 5) prom_arr.push(`${el},${mFlatCopy[i]}`);
+            if(Math.abs(el + mFlatCopy[i]) === 15) prom_arr.push(15);
+            if(Math.abs(el - mFlatCopy[i]) === 15) prom_arr.push(15);
+            if(Math.abs(el + mFlatCopy[i]) === 5) prom_arr.push(5);
+            if(Math.abs(el - mFlatCopy[i]) === 5) prom_arr.push(5);
        }
     });
 
-    prom_arr.forEach((el) => {
-        const keyReverse = el.split(',').reverse().join();
-        const data = table_of_weights.get(el) ? table_of_weights.get(el) : table_of_weights.get(keyReverse);
-        if (data) res.push(data);
-    })
-    
-    // return prom_arr.length / 2;
-    return res.filter(el => el > 0).reduce((a,b) => a + b, 0) / 2;
+    return prom_arr.filter(el => el > 0).reduce((a,b) => a + b, 0) / 20;
 
 }
 
