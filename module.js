@@ -279,8 +279,7 @@ function rFourFunc(m) {
       });
 
     }
-
-    return arr_help.filter(isFinite).reduce((a,b) => a + b, 0);
+    return arr_help.filter(el => el > 0).reduce((a,b) => a + b, 0);
 
 } 
 
@@ -415,65 +414,32 @@ function rSevenFunc(m) {
 }
 
 
-/** Решение 8 **/
-function rEightFunc(m) {
-    let r1 = 0;
-    let r2 = 0;
-
-    let arr_of_indexes_r1 = m.flat().map((el, i) => [i, i + 1]);
-    const elements = m[0].length === 6 ? '9,10' : '10,11';
-    
-    arr_of_indexes_r1.pop();
-    arr_of_indexes_r1 = arr_of_indexes_r1.filter(el => el.toString() !== [m[0].length - 1, m[0].length].toString());
-    arr_of_indexes_r1 = arr_of_indexes_r1.filter(el => el.toString() !== '3,4' && el.toString() !== elements);
-
-    const arr_help_for_r1 = {};
-    const mCopy = m.slice().flat();
-
-    arr_of_indexes_r1.forEach((el, i) => {
-        const elements = m[0].length === 6 ? '9,10' : '10,11';
-        const newArrWithoutCurr = arr_of_indexes_r1.filter(el => el.toString() !== '3,4' && el.toString() !== elements);
-        
-        newArrWithoutCurr.forEach((elFromNewArr) => {
-
-            const m_group = [mCopy[el[0]], mCopy[el[1]]];
-            const m_elFromNewArr = [mCopy[elFromNewArr[0]], mCopy[elFromNewArr[1]]];
-
-            if (checkPairIfFromOneGroup(m_group, m_elFromNewArr) && el[0] !== elFromNewArr[0]) {
-                const key = whichGroupesFrom(m_group);
-                if (arr_help_for_r1[key]) {
-                    arr_help_for_r1[key][i] = [m_group];
-                } else {
-                    arr_help_for_r1[key] = [];
-                    arr_help_for_r1[key][i] = [m_group];
-                }
-            }
-        });
-        
-    })
-
+/** Решение 11 **/
+function rElevenFunc(m) {
+   
+    const mFlatCopy = m.flat();
+    const prom_arr = [];
     const res = [];
 
-    for (let key in arr_help_for_r1) {
-        const arr = arr_help_for_r1[key].filter(el => !!el).flat();
-        const check_arr1 = [5,6,7,8,9,0];
-        const checkMap = new Map()
-            .set(5, 0)
-            .set(6, 9)
-            .set(7, 8)
-            .set(8, 7)
-            .set(9, 6)
-        
-        arr.forEach(el => {
-            const pair = checkMap.get(el[0]);
-            if (pair) {
-                
-            }
-        })
+    mFlatCopy.forEach((el, idx) => {
+       for(let i = idx + 1; i < mFlatCopy.length; i++) {
+            if(Math.abs(el + mFlatCopy[i]) === 15) prom_arr.push(`${el},${mFlatCopy[i]}`);
+            if(Math.abs(el - mFlatCopy[i]) === 15) prom_arr.push(`${el},${mFlatCopy[i]}`);
+            if(Math.abs(el + mFlatCopy[i]) === 5) prom_arr.push(`${el},${mFlatCopy[i]}`);
+            if(Math.abs(el - mFlatCopy[i]) === 5) prom_arr.push(`${el},${mFlatCopy[i]}`);
+       }
+    });
 
-    }
+    prom_arr.forEach((el) => {
+        const keyReverse = el.split(',').reverse().join();
+        const data = table_of_weights.get(el) ? table_of_weights.get(el) : table_of_weights.get(keyReverse);
+        if (data) res.push(data);
+    })
+    
+    // return prom_arr.length / 2;
+    return res.filter(el => el > 0).reduce((a,b) => a + b, 0) / 2;
 
-} 
+}
 
 let M = [
     [
@@ -542,6 +508,7 @@ function calculate() {
     rFiveFunc(M[numOfEx]),
     rSixFunc(M[numOfEx]),
     rSevenFunc(M[numOfEx]),
+    rElevenFunc(M[numOfEx]),
   ];
 
   document.querySelector("#r1").value = res[0];
@@ -552,7 +519,7 @@ function calculate() {
   document.querySelector("#r6").value = res[6];
   document.querySelector("#r7").value = res[5][0];
   document.querySelector("#r8").value = res[5][1];
-    
+  document.querySelector("#r11").value = res[7];
 }
 
 function clear() {
