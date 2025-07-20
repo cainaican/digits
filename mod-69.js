@@ -465,7 +465,7 @@ const res = [
 ];
 
 function calculate() {
-  const cells = document.querySelectorAll('.matrix-cell > input');
+  const cells = document.querySelectorAll('td > input');
   const numOfEx = 0;
 
   if (cells[6]?.value === '' && cells[13]?.value === '') {
@@ -537,7 +537,7 @@ function calculate() {
 }
 
 function clear() {
-  const cells = document.querySelectorAll('.matrix-cell > input');
+  const cells = document.querySelectorAll('td > input');
   cells.forEach(el => (el.value = ''));
 }
 

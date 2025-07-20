@@ -70,7 +70,7 @@ function countSpecialPairsInRows_4x3(matrix) {
 }
 
 function calculate() {
-  const cells = document.querySelectorAll('.matrix-cell > input');
+  const cells = document.querySelectorAll('td > input');
   M = [
     [+cells[0]?.value ?? 0, +cells[1]?.value ?? 0, +cells[2]?.value ?? 0],
     [+cells[3]?.value ?? 0, +cells[4]?.value ?? 0, +cells[5]?.value ?? 0],
@@ -84,7 +84,7 @@ function calculate() {
 }
 
 function clear() {
-  const cells = document.querySelectorAll('.matrix-cell > input');
+  const cells = document.querySelectorAll('td > input');
   cells.forEach(el => (el.value = ''));
 }
 
