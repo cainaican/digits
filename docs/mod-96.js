@@ -147,37 +147,43 @@ function groupCombinations_4x3(matrix) {
   if (!Array.isArray(matrix) || matrix.length !== 4 || matrix.some(row => row.length !== 3)) {
     throw new Error('Ожидается матрица 4x3');
   }
-  // Определяем группы
-  const groups = [
-    [4, 1, 6, 9],
-    [2, 3, 7, 8],
-    [0, 5]
-  ];
-  // Проверяем 2-ю и 3-ю строки
+  // Проверяем 2-ю и 3-ю строки по новому правилу
   for (let rowIdx of [1, 2]) {
-    for (let g of groups) {
-      if (matrix[rowIdx].every(x => g.includes(x))) {
-        let group1 = [],
-          group2 = [];
-        if (rowIdx === 1) {
-          group1 = matrix[0];
-          group2 = matrix[2].concat(matrix[3]);
-        } else if (rowIdx === 2) {
-          group1 = matrix[0].concat(matrix[1]);
-          group2 = matrix[3];
+    const row = matrix[rowIdx];
+    let allPairsOk = true;
+    for (let i = 0; i < row.length; i++) {
+      for (let j = 0; j < row.length; j++) {
+        if (i === j) continue;
+        const sum = row[i] + row[j];
+        const diff = Math.abs(row[i] - row[j]);
+        if (!(sum % 5 === 0 || diff % 5 === 0)) {
+          allPairsOk = false;
+          break;
         }
-        // Считаем комбинации
-        let count = 0;
-        for (let a of group1) {
-          for (let b of group2) {
-            const sum = a + b;
-            const diff = Math.abs(a - b);
-            if (sum > 0 && sum % 5 === 0) count++;
-            else if (diff > 0 && diff % 5 === 0) count++;
-          }
-        }
-        return count;
       }
+      if (!allPairsOk) break;
+    }
+    if (allPairsOk) {
+      let group1 = [],
+        group2 = [];
+      if (rowIdx === 1) {
+        group1 = matrix[0];
+        group2 = matrix[2].concat(matrix[3]);
+      } else if (rowIdx === 2) {
+        group1 = matrix[0].concat(matrix[1]);
+        group2 = matrix[3];
+      }
+      // Считаем комбинации
+      let count = 0;
+      for (let a of group1) {
+        for (let b of group2) {
+          const sum = a + b;
+          const diff = Math.abs(a - b);
+          if (sum > 0 && sum % 5 === 0) count++, console.log(a, b);
+          else if (diff > 0 && diff % 5 === 0) count++, console.log(a, b);
+        }
+      }
+      return count;
     }
   }
   return 0;
