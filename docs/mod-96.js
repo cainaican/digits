@@ -130,8 +130,8 @@ function countPairsEndsWith5or0(arr1, arr2) {
       const sum = a + b;
       const diff = a - b;
 
-      if (sum !== 0 && (Math.abs(sum) % 10 === 0 || Math.abs(sum) % 10 === 5)) count++;
-      else if (diff !== 0 && (Math.abs(diff) % 10 === 0 || Math.abs(diff) % 10 === 5)) count++;
+      if (sum !== 0 && Math.abs(sum) % 5 === 0) count++;
+      else if (diff !== 0 && Math.abs(diff) % 5 === 0) count++;
     }
   }
   return count;
@@ -204,7 +204,7 @@ function zeroFiveCombinations_4x3(matrix) {
   for (let rowIdx of [1, 2]) {
     const row = matrix[rowIdx];
     // Индексы всех 0 или 5
-    const foundIdxs = row.map((x, idx) => (x === 0 || x === 5 ? idx : -1)).filter(idx => idx !== -1);
+    const foundIdxs = row.map((x, idx) => (x === 0 || x % 5 === 0 ? idx : -1)).filter(idx => idx !== -1);
     for (const foundIdx of foundIdxs) {
       let group1 = [],
         group2 = [];
